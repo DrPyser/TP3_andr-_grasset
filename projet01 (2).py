@@ -446,7 +446,8 @@ def programme():
     valeur_des(nbd)
     for n in range(nbd):
         tk_dice(dict_des["dé%d"%n],n)
-    vainqueur="Félicitation "+gagnant()+"! Vous avez gagné en prédisant le plus près de "+str(valeur_totale)
+    for n in joueur.gagnant():
+        vainqueur="Félicitation "+n+"! Vous avez gagné en prédisant le plus près de "+str(valeur_totale)+"."
     victory=Tk()
     victory.title("Bravo!")
     MessageV=Label(victory, text=vainqueur, fg="black", font="Times 10 bold")
@@ -458,7 +459,7 @@ def programme():
     victory.mainloop()
     
     for n in joueur.noms:
-        if n==gagnant():
+        if n in joueur.gagnant():
             joueur.joueur_dict[n].Montant(gain=joueur.mise_totale)
     if 0 in joueur.dict_montants.values():
         return replay()
