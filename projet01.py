@@ -145,25 +145,9 @@ def tk_nbjoueur2():
     button2.pack()
     window2.grid()
 
-def mise1():
-    bet.set(1)
-    return
-
-def mise2():
-    bet.set(5)
-    return
-
-def mise3():
-    bet.set(10)
-    return
-
-def mise4():
-    bet.set(20)
-    return
-
-def mise5():
-    bet.set(50)
-    return
+def mise1(mise):
+    bet.set(mise)
+   
 
 def autremise():
     global bet
@@ -256,15 +240,15 @@ def tk_main_window(nom):
     libele1=Label(section2, text="Choisissez une mise", fg="black", font="Times 10 bold")
     libele1.pack()
     bet=IntVar()#variable contenant le bet
-    bouton1=Button(section2, text="1", width=9, command=mise1, cursor="dotbox")
+    bouton1=Button(section2, text="1", width=9, command=lambda:mise(1), cursor="dotbox")
     bouton1.pack(pady=1)
-    bouton2=Button(section2, text="5", width=9, command=mise2, cursor="dotbox")
+    bouton2=Button(section2, text="5", width=9, command=lambda:mise(5), cursor="dotbox")
     bouton2.pack(pady=1)
-    bouton3=Button(section2, text="10", width=9, command=mise3, cursor="dotbox")
+    bouton3=Button(section2, text="10", width=9, command=lambda:mise(10), cursor="dotbox")
     bouton3.pack(pady=1)
-    bouton4=Button(section2, text="20", width=9, command=mise4, cursor="dotbox")
+    bouton4=Button(section2, text="20", width=9, command=lambda:mise(20), cursor="dotbox")
     bouton4.pack(pady=1)
-    bouton5=Button(section2, text="50", width=9, command=mise5, cursor="dotbox")
+    bouton5=Button(section2, text="50", width=9, command=lambda:mise(50), cursor="dotbox")
     bouton5.pack(pady=1)
     bouton6=Button(section2, text="Autre mise", width=9, command=autremise, cursor="dotbox")
     bouton6.pack(pady=1)
