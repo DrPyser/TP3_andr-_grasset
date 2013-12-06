@@ -232,7 +232,7 @@ def roll():
         image_de_final="d6-face%d-%d.gif"%(definal,type_de)
         imgdefinal=PhotoImage(file=image_de_final)#ref
         imgfinale=section1.create_image(65,56,image=imgdefinal)
-
+        windowDice.after(5000, windowDice.destroy)
 
 def tk_main_window(nom):
     
