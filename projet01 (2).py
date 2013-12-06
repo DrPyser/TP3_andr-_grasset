@@ -20,9 +20,9 @@ class joueur:
         joueur.dict_bet[self.nom]=[]
         joueur.compte+=1#nombre de joueurs incremente de 1
         self.attributs_joueur=vars(self)
-        return 
+        return
 
-
+        joueur.noms=[]
     def Montant(self,gain=0,perte=0):
         "'methode' ou fonction determinant le montant d'argent que possede le joueur"
         self.gain+=gain#incremente l'attribut "gain"
@@ -50,7 +50,7 @@ class joueur:
             del joueur.dict_ecarts[n]
         joueur.compte-=1
         
-        return  "Le joueur %s a été supprimé."%self.nom
+        return "Le joueur %s a été supprimé."%self.nom
     @staticmethod
     def generateur(nom):
         joueur.joueur_dict[nom]=joueur(nom,120)#crée une instance de la classe ‘joueur' dans le #dictionnaire
@@ -67,7 +67,7 @@ class joueur:
         joueur.joueur_dict={}#dictionnaire des joueurs
         joueur.noms=[]
         joueur.dict_ecarts={}
-        return "Classe réinitialisée."    
+        return "Classe réinitialisée."
     def attributs(self):
         "Affiche tous les attributs de l'instance de classe"
         "Voici les attributs du joueur %s."%self.nom
@@ -82,8 +82,8 @@ class joueur:
     @staticmethod
     def gagnant():
         """Crée un dictionnaire des écarts entre le 'guess' de chacun des joueurs et
-        la valeur retournée par valeur_des(nbd),
-        et renvoie le nom du joueur don't l'écart est le plus petit. nbd=nombre de dés"""
+la valeur retournée par valeur_des(nbd),
+et renvoie le nom du joueur don't l'écart est le plus petit. nbd=nombre de dés"""
         global valeur_totale
         for n in joueur.noms:
             joueur.dict_ecarts[n]=abs( valeur_totale-joueur.joueur_dict[n].guess)
@@ -107,18 +107,18 @@ from Tkinter import *
 import time
 ## Functions
 ##def tk_menu_nbjoueur():
-##  global ismenu
-##  ismenu=True
-##  tk_nbjoueur()
-##  fenetre1.destroy
-##  return programme()
+## global ismenu
+## ismenu=True
+## tk_nbjoueur()
+## fenetre1.destroy
+## return programme()
 
 def tk_nbjoueur():
   global window1,ismenu,nbj
-##  click1=False
-##  if ismenu is True :
-##      window1=Toplevel()
-##  else:
+## click1=False
+## if ismenu is True :
+## window1=Toplevel()
+## else:
   window1=Tk()
   window1.title("Combien de joueur?")
   label1=Label(window1,text="Combien de joueurs vont jouer? Entre 2 et 4.", font="Time 10 bold", fg="black")
@@ -190,7 +190,7 @@ Plus précisément, la partie sera amorcée avec le choix de la valeur des param
 
 À chaque tour, les joueurs devront choisir une mise en argent. Ensuite, à tour de rôle, ils doivent effectuer une prédiction quant à la somme des chiffres affichés sur les dés après lancer. Ceux-ci seront par la suite effectivement lancés. Le gagnant du tour est le joueur dont la prédiction se rapproche le plus de la somme réelle des chiffres sur les dés obtenus. Celui-ci remporte alors la mise des autres joueurs.
 
-Votre objectif est donc de produire les meilleures prédictions pour remporter le plus de manches possibles. Si vous perdez trop de manches, votre montant sera immanquablement porté à  0$ et vous serez éliminé. Si vous parvenenz à survivre jusqu'à la fin, vous gagnerez la partie et la totalité de l'argent de chacun des joueurs.
+Votre objectif est donc de produire les meilleures prédictions pour remporter le plus de manches possibles. Si vous perdez trop de manches, votre montant sera immanquablement porté à 0$ et vous serez éliminé. Si vous parvenenz à survivre jusqu'à la fin, vous gagnerez la partie et la totalité de l'argent de chacun des joueurs.
 
 N. B. : En aucun vous ne pourrez parier plus que le montant possédé au moment de la mise. Les emprunts sont donc interdits.
 
@@ -222,14 +222,14 @@ def roll():
         while numero_img==last_numero:
             numero_img=random.randint(1,6)
         last_numero=numero_img
-        image_de="d6-face%d-1.gif"%numero_img
+        image_de="d6-face%d-%d.gif"%(numero_img,type_de)
         img_de=PhotoImage(file=image_de)#ref
         imgde=section1.create_image(65,56, image=img_de)
         comp=comp+1
         windowDice.after(100,roll)
     elif comp==20:
-##        definal=3
-        image_de_final="d6-face%d-1.gif"%definal
+## definal=3
+        image_de_final="d6-face%d-%d.gif"%(definal,type_de)
         imgdefinal=PhotoImage(file=image_de_final)#ref
         imgfinale=section1.create_image(65,56,image=imgdefinal)
 
@@ -302,14 +302,17 @@ def tk_main_window(nom):
     menus=Menu(fenetre1)
     
     menu1=Menu(menus, tearoff=0)
-    menus.add_cascade(label="Fichier",  menu=menu1)
-##  menu1.add_command(label="Recommencer")
+    menus.add_cascade(label="Fichier", menu=menu1)
+## menu1.add_command(label="Recommencer")
     menu1.add_command(label="Quitter", command=fermeture_plus_tot)
 
-##    menu2=Menu(menus, tearoff=0)
-##    menus.add_cascade(label="Personnalisation", menu=menu2)
-##    sousmenu=menus.add_command(label="Type de design de dé")
-##    sousmenu.add_cascade(label="Simplifié
+    menu2=Menu(menus, tearoff=0)
+    menus.add_cascade(label="Personnalisation", menu=menu2)
+    
+    sousmenu=Menu(menu2)
+    menu2.add_cascade(label="Type de design de dé", menu=sousmenu)
+    sousmenu.add_command(label="Simplifié", command=type1)
+    sousmenu.add_command(label="Réaliste", command=type2)
 ##  menu2.add_command(label="Nombre de joueur", command=tk_menu_nbjoueur)
 ##  menu2.add_command(label="Nombre de dés", command=tk_menu_nbdes)
     
@@ -323,6 +326,14 @@ def tk_main_window(nom):
     
     bet=bet.get()
     guess=guess.get()
+
+def type1():
+    global type_de
+    type_de=1
+
+def type2():
+    global type_de
+    type_de=2
 
 def continuer():
     if bet.get()>joueur.joueur_dict[name].montant:
@@ -363,18 +374,18 @@ def fermeture_plus_tot():
     Merci.mainloop()
 
 ##def tk_menu_nbdes():
-##  global nbd, ismenu
-##  ismenu=True
-##  nbd=tk_nbdes()
-##  fenetre1.destroy()
-##  return programme()
+## global nbd, ismenu
+## ismenu=True
+## nbd=tk_nbdes()
+## fenetre1.destroy()
+## return programme()
     
 
 def tk_nbdes():
     global ismenu, windowDes, nbdes
-##  if ismenu is True:
-##      windowDes=Toplevel()
-##  else:
+## if ismenu is True:
+## windowDes=Toplevel()
+## else:
     windowDes=Tk()
     windowDes.title("Nombre de dés")
     labelDes=Label(windowDes, text="Combien de dés à 6 faces voulez vous utiliser? Entre 1 et 4", fg="black", font="Times 10 bold")
@@ -499,12 +510,13 @@ Plus précisément, la partie sera amorcée avec le choix de la valeur des param
 
 À chaque tour, les joueurs devront choisir une mise en argent. Ensuite, à tour de rôle, ils doivent effectuer une prédiction quant à la somme des chiffres affichés sur les dés après lancer. Ceux-ci seront par la suite effectivement lancés. Le gagnant du tour est le joueur dont la prédiction se rapproche le plus de la somme réelle des chiffres sur les dés obtenus. Celui-ci remporte alors la mise des autres joueurs.
 
-Votre objectif est donc de produire les meilleures prédictions pour remporter le plus de manches possibles. Si vous perdez trop de manches, votre montant sera immanquablement porté à  0$ et vous serez éliminé. Si vous parvenez à survivre jusqu'à la fin, vous gagnerez la partie et la totalité de l'argent de chacun des joueurs.
+Votre objectif est donc de produire les meilleures prédictions pour remporter le plus de manches possibles. Si vous perdez trop de manches, votre montant sera immanquablement porté à 0$ et vous serez éliminé. Si vous parvenez à survivre jusqu'à la fin, vous gagnerez la partie et la totalité de l'argent de chacun des joueurs.
 
 N. B. : En aucun vous ne pourrez parier plus que le montant possédé au moment de la mise. Les emprunts sont donc interdits.
 
 Sur ce, sans plus tarder, bon jeu à tous!"""
 ismenu=False
+type_de=1
 tk_nbjoueur()
 for n in range(nbj):
     joueur.generateur(tk_nomjoueurs())
