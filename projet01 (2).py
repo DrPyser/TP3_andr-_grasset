@@ -22,7 +22,7 @@ class joueur:
         self.attributs_joueur=vars(self)
         return 
 
-        joueur.noms=[]
+
     def Montant(self,gain=0,perte=0):
         "'methode' ou fonction determinant le montant d'argent que possede le joueur"
         self.gain+=gain#incremente l'attribut "gain"
