@@ -309,7 +309,7 @@ def tk_main_window(nom):
     menu2=Menu(menus, tearoff=0)
     menus.add_cascade(label="Personnalisation", menu=menu2)
     
-    sousmenu=Menu(menu2)
+    sousmenu=Menu(menu2, tearoff=0)
     menu2.add_cascade(label="Type de design de dé", menu=sousmenu)
     sousmenu.add_command(label="Simplifié", command=type1)
     sousmenu.add_command(label="Réaliste", command=type2)
@@ -450,6 +450,15 @@ def continuerNoms():
     else:
         windowNom.destroy()
 
+def main_programme():
+    global nbd, type_de
+    type_de=1
+    tk_nbjoueur()
+    for n in range(nbj):
+        joueur.generateur(tk_nomjoueurs())
+    nbd=tk_nbdes()
+    programme()
+
 def programme():
     for n in joueur.noms:
             tk_main_window(n)
@@ -458,13 +467,11 @@ def programme():
     for n in range(nbd):
         tk_dice(dict_des["dé%d"%n],n)
     for n in joueur.gagnant():
-        vainqueur="Félicitation "+n+"! Vous avez gagné en prédisant le plus près de "+str(valeur_totale)+"."
+        vainqueur="Félicitation "+n+"! Vous avez gagné la ronde en prédisant le plus près de "+str(valeur_totale)+"."
     victory=Tk()
     victory.title("Bravo!")
     MessageV=Label(victory, text=vainqueur, fg="black", font="Times 10 bold")
     MessageV.pack()
-    import webbrowser
-    webbrowser.open("https://www.youtube.com/watch?v=9QS0q3mGPGg")
     BoutonV=Button(victory, text="Okay", command=victory.destroy, cursor="dotbox")
     BoutonV.pack()
     victory.mainloop()
@@ -473,6 +480,8 @@ def programme():
         if n in joueur.gagnant():
             joueur.joueur_dict[n].Montant(gain=joueur.mise_totale)
     if 0 in joueur.dict_montants.values():
+        import webbrowser
+        webbrowser.open("https://www.youtube.com/watch?v=9QS0q3mGPGg")
         return replay()
     else:
         return programme()
@@ -492,7 +501,7 @@ def replay():
 def rejouer():
     Replay.destroy()
     joueur.class_reset()
-    programme()
+    main_programme()
 
 def fin():
     Replay.destroy()
@@ -516,9 +525,4 @@ N. B. : En aucun vous ne pourrez parier plus que le montant possédé au moment 
 
 Sur ce, sans plus tarder, bon jeu à tous!"""
 ismenu=False
-type_de=1
-tk_nbjoueur()
-for n in range(nbj):
-    joueur.generateur(tk_nomjoueurs())
-nbd=tk_nbdes()
-programme()
+main_programme()
