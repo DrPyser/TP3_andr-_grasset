@@ -98,8 +98,8 @@ class joueur:
     @staticmethod
     def gagnant():
         """Crée un dictionnaire des écarts entre le 'guess' de chacun des joueurs et
-la valeur retournée par valeur_des(nbd),
-et renvoie le nom du joueur don't l'écart est le plus petit. nbd=nombre de dés"""
+        la valeur retournée par valeur_des(nbd),
+        et renvoie le nom du joueur don't l'écart est le plus petit. nbd=nombre de dés"""
         global valeur_totale
         for n in joueur.noms:
             joueur.dict_ecarts[n]=abs( valeur_totale-joueur.joueur_dict[n].guess)
@@ -139,11 +139,7 @@ def tk_nbjoueur():
 def tk_nbjoueur_verif():
     """Fonction vérifiant le nombre de joueur entré dans l'interface graphique de tk_nbjoueur() et créant un avertissement avec tkinter si nécessaire"""
     global nbj
-    is_integer=True
-    for n in range(len(nbj.get())):
-        if nbj.get()[n] not in ("1","2","3","4", "5","6","7","8","9","0"):
-            is_integer=False
-    if is_integer==False:
+    if nbj.get().isdigit()==False:
         attention=Tk()
         attention.title("Attention!")
         alabel=Label(attention, text="Attention, vous n'avez pas entré uniquement des chiffre!", fg="black", font="Times 10 bold")
@@ -224,11 +220,7 @@ def tk_nbdes():
 
 def tk_nbdes_verif():
     """Fonction vérifiant le nombre de dé donné dans la fonction tk_nbdes() et affichant un avertissement avec tkinter au besoin."""
-    is_integer=True
-    for n in range(len(nbdes.get())):
-        if nbdes.get()[n] not in ("1","2","3","4", "5","6","7","8","9","0"):
-            is_integer=False
-    if is_integer==False:
+    if nbdes.get().isdigit()==False:
         attention=Tk()
         attention.title("Attention!")
         alabel=Label(attention, text="Attention, vous n'avez pas entré uniquement des chiffre!", fg="black", font="Times 10 bold")
