@@ -145,7 +145,7 @@ def tk_nbjoueur2():
     button2.pack()
     window2.grid()
 
-def mise1(mise):
+def mise(mise):
     bet.set(mise)
    
 
