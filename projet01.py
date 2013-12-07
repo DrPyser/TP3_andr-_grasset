@@ -126,19 +126,32 @@ def tk_nbjoueur():
     window1.title("Combien de joueur?")
     label1=Label(window1,text="Combien de joueurs vont jouer? Entre 2 et 4.", font="Time 10 bold", fg="black")
     label1.pack()
-    nbj=IntVar()
+    nbj=StringVar()
+    nbj.set("2")
     entry1=Entry(window1, textvariable=nbj, justify=CENTER, width=2)
     entry1.pack()
     button1=Button(window1, text="Okay", command=tk_nbjoueur_verif, cursor="dotbox")
     button1.pack()
     window1.mainloop()
-    nbj=nbj.get()
+    nbj=int(nbj.get())
     return 
 
 def tk_nbjoueur_verif():
     """Fonction vérifiant le nombre de joueur entré dans l'interface graphique de tk_nbjoueur() et créant un avertissement avec tkinter si nécessaire"""
     global nbj
-    if nbj.get() in (2,3,4):
+    is_integer=True
+    for n in range(len(nbj.get())):
+        if nbj.get()[n] not in ("1","2","3","4", "5","6","7","8","9","0"):
+            is_integer=False
+    if is_integer==False:
+        attention=Tk()
+        attention.title("Attention!")
+        alabel=Label(attention, text="Attention, vous n'avez pas entré uniquement des chiffre!", fg="black", font="Times 10 bold")
+        alabel.pack()
+        abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")
+        abouton.pack()
+        attention.mainloop()
+    elif int(nbj.get()) in (2,3,4):
         window1.destroy()
     else:
         window2=Toplevel()
@@ -200,17 +213,30 @@ def tk_nbdes():
     windowDes.title("Nombre de dés")
     labelDes=Label(windowDes, text="Combien de dés à 6 faces voulez vous utiliser? Entre 1 et 4", fg="black", font="Times 10 bold")
     labelDes.pack()
-    nbdes=IntVar()
+    nbdes=StringVar()
+    nbdes.set("1")
     entrydes=Entry(windowDes, textvariable=nbdes, width=3, justify=CENTER)
     entrydes.pack()
     boutonDes=Button(windowDes, text="Okay", command=tk_nbdes_verif, cursor="dotbox")
     boutonDes.pack()
     windowDes.mainloop()
-    return nbdes.get()
+    return int(nbdes.get())
 
 def tk_nbdes_verif():
     """Fonction vérifiant le nombre de dé donné dans la fonction tk_nbdes() et affichant un avertissement avec tkinter au besoin."""
-    if nbdes.get() not in range(1,5):
+    is_integer=True
+    for n in range(len(nbdes.get())):
+        if nbdes.get()[n] not in ("1","2","3","4", "5","6","7","8","9","0"):
+            is_integer=False
+    if is_integer==False:
+        attention=Tk()
+        attention.title("Attention!")
+        alabel=Label(attention, text="Attention, vous n'avez pas entré uniquement des chiffre!", fg="black", font="Times 10 bold")
+        alabel.pack()
+        abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")
+        abouton.pack()
+        attention.mainloop()
+    elif int(nbdes.get()) not in range(1,5):
         attention=Tk()
         attention.title("Attention!")
         alabel=Label(attention, text="Attention, vous n'avez pas choisi entre 1 et 4 dé(s)!", fg="black", font="Times 10 bold")
@@ -292,7 +318,8 @@ def tk_main_window(nom):
     section2.pack(fill=X)
     libele1=Label(section2, text="Choisissez une mise", fg="black", font="Times 10 bold")
     libele1.pack()
-    bet=IntVar()#variable contenant le bet
+    bet=StringVar()#variable contenant le bet
+    bet.set("1")
     bouton1=Button(section2, text="1", width=9, command=lambda:mise(1), cursor="dotbox")
     bouton1.pack(pady=1)
     bouton2=Button(section2, text="5", width=9, command=lambda:mise(5), cursor="dotbox")
@@ -312,7 +339,8 @@ def tk_main_window(nom):
     section3.pack(side=BOTTOM, pady=1, fill=X)
     libele2=Label(section3, text="Quel nombre prédisez-vous?", fg="black", font="Times 10 bold")
     libele2.pack()
-    guess=IntVar()#variable contenant le guess
+    guess=StringVar()#variable contenant le guess
+    guess.set(str(nbd))
     saisie1=Entry(section3, textvariable=guess, justify=CENTER, width=3)
     saisie1.pack()
     libele4=Label(section3, textvariable=guess, bg="black", fg="white")
@@ -356,31 +384,61 @@ def tk_main_window(nom):
 
 
     ##Commandes post-interface
-    bet=bet.get()
-    guess=guess.get()
+    bet=int(bet.get())
+    guess=int(guess.get())
     return 
 
 def mise(mise):
     """Fonction assignant une valeur à la variable bet selon le bouton cliqué"""
-    bet.set(mise)
+    bet.set(str(mise))
     return 
 
 def tk_autremise():
     """Fonction créant une fenêtre tkinter offrant la possibilité d'entrer une autre mise et attribuant cette valeur à bet"""
-    global bet
+    global bet, fenetre2
     fenetre2=Toplevel()
     fenetre2.title("Autre mise?")
     fenetre2.geometry("200x50")
     saisie2=Entry(fenetre2, textvariable=bet, justify=CENTER, width=3)
-    bouton8=Button(fenetre2, text="Confirmer", command=fenetre2.destroy, cursor="dotbox")
+    bouton8=Button(fenetre2, text="Confirmer", command=tk_autremise_verif, cursor="dotbox")
     saisie2.pack()
     bouton8.pack(pady=1)
     fenetre2.grid()
-    return 
+    return
+
+def tk_autremise_verif():
+    """Fonction vérifiant que la mise entrée dans l'interface tkinter de tk_autremise() ne contient pas des caractères autres que numériques."""
+    is_integer=True
+    for n in range(len(bet.get())):
+        if bet.get()[n] not in ("1","2","3","4", "5","6","7","8","9","0"):
+            is_integer=False
+    if is_integer==False:
+        attention=Tk()
+        attention.title("Attention!")
+        alabel=Label(attention, text="Attention, vous n'avez pas entré uniquement des chiffre!", fg="black", font="Times 10 bold")
+        alabel.pack()
+        abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")
+        abouton.pack()
+        attention.mainloop()
+    else:
+        fenetre2.destroy()
+    return
 
 def tk_main_window_verif():
     """Fonction vérifiant que les mises et prédictions entrées dans tk_main_window() soient valides et affichant un message d'avertissement avec tkinter au besoin"""
-    if bet.get()>joueur.joueur_dict[name].montant:
+    is_integer=True
+    for n in range(len(guess.get())):
+        if guess.get()[n] not in ("1","2","3","4", "5","6","7","8","9","0"):
+            is_integer=False
+    if is_integer==False:
+        attention=Tk()
+        attention.title("Attention!")
+        alabel=Label(attention, text="Attention, vous n'avez pas entré uniquement des chiffre!", fg="black", font="Times 10 bold")
+        alabel.pack()
+        abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")
+        abouton.pack()
+        attention.mainloop()
+    elif int(bet.get())>joueur.joueur_dict[name].montant:
         attention=Tk()
         attention.title("Attention!")
         alabel=Label(attention, text="Attention, vous avez misé plus que vous ne possédez!", fg="black", font="Times 10 bold")
@@ -388,7 +446,7 @@ def tk_main_window_verif():
         abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")
         abouton.pack()
         attention.mainloop()
-    elif bet.get()<=0:
+    elif int(bet.get())<=0:
         attention=Tk()
         attention.title("Attention!")
         alabel=Label(attention, text="Attention, vous avez misé 0 ou moins!", fg="black", font="Times 10 bold")
@@ -396,7 +454,7 @@ def tk_main_window_verif():
         abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")
         abouton.pack()
         attention.mainloop()
-    elif guess.get() not in range(1*nbd, 6*nbd+1):
+    elif int(guess.get()) not in range(1*nbd, 6*nbd+1):
         attention=Tk()
         attention.title("Attention!")
         alabel=Label(attention, text="Attention, vous avez prédit un nombre qui ne peut pas être généré par %d dé(s)!"%nbd, fg="black", font="Times 10 bold")
