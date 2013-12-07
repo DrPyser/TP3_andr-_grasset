@@ -320,15 +320,15 @@ def tk_main_window(nom):
     libele1.pack()
     bet=StringVar()#variable contenant le bet
     bet.set("1")
-    bouton1=Button(section2, text="1", width=9, command=lambda:mise(1), cursor="dotbox")
+    bouton1=Button(section2, text="1", width=9, command=lambda:bet.set("1"), cursor="dotbox")
     bouton1.pack(pady=1)
-    bouton2=Button(section2, text="5", width=9, command=lambda:mise(5), cursor="dotbox")
+    bouton2=Button(section2, text="5", width=9, command=lambda:bet.set("5"), cursor="dotbox")
     bouton2.pack(pady=1)
-    bouton3=Button(section2, text="10", width=9, command=lambda:mise(10), cursor="dotbox")
+    bouton3=Button(section2, text="10", width=9, command=lambda:bet.set("10"), cursor="dotbox")
     bouton3.pack(pady=1)
-    bouton4=Button(section2, text="20", width=9, command=lambda:mise(20), cursor="dotbox")
+    bouton4=Button(section2, text="20", width=9, command=lambda:bet.set("20"), cursor="dotbox")
     bouton4.pack(pady=1)
-    bouton5=Button(section2, text="50", width=9, command=lambda:mise(50), cursor="dotbox")
+    bouton5=Button(section2, text="50", width=9, command=lambda:bet.set("50"), cursor="dotbox")
     bouton5.pack(pady=1)
     bouton6=Button(section2, text="Autre mise", width=9, command=tk_autremise, cursor="dotbox")
     bouton6.pack(pady=1)
@@ -386,11 +386,6 @@ def tk_main_window(nom):
     ##Commandes post-interface
     bet=int(bet.get())
     guess=int(guess.get())
-    return 
-
-def mise(mise):
-    """Fonction assignant une valeur à la variable bet selon le bouton cliqué"""
-    bet.set(str(mise))
     return 
 
 def tk_autremise():
