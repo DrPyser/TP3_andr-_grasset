@@ -364,8 +364,8 @@ def tk_main_window(nom):
     menus.add_cascade(label="Personnalisation", menu=menu2)
     sousmenu=Menu(menu2, tearoff=0)
     menu2.add_cascade(label="Type de design de dé", menu=sousmenu)
-    sousmenu.add_command(label="Simplifié", command=type1)
-    sousmenu.add_command(label="Réaliste", command=type2)
+    sousmenu.add_command(label="Simplifié", command=lambda:type(1))
+    sousmenu.add_command(label="Réaliste", command=lambda:type(2))
     
     menu3=Menu(menus, tearoff=0)
     menus.add_cascade(label="Aide", menu=menu3)
@@ -462,17 +462,11 @@ def tk_quitter():
     Merci.mainloop()
     return 
 
-def type1():
+def type(n):
     """Fonction qui indique d'utiliser les images de dés simplifiées, soit toutes avec le même chiffre sur toutes ses faces"""
     global type_de
-    type_de=1
-    return 
+    type_de=n
 
-def type2():
-    """Fonction qui indique d'utiliser les images de dés réalistes, soit avec des chiffres différent sur les faces voisines"""
-    global type_de
-    type_de=2
-    return 
 
 def tk_aide():
     """Fonction créant avec tkinter une fenêtre contenant les règles et les instructions du jeu"""
