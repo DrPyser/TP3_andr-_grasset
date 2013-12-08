@@ -395,11 +395,7 @@ def tk_autremise():
 
 def tk_autremise_verif():
     """Fonction vérifiant que la mise entrée dans l'interface tkinter de tk_autremise() ne contient pas des caractères autres que numériques."""
-    is_integer=True
-    for n in range(len(bet.get())):
-        if bet.get()[n] not in ("1","2","3","4", "5","6","7","8","9","0"):
-            is_integer=False
-    if is_integer==False:
+    if bet.get().isdigit()==False:
         attention=Tk()
         attention.title("Attention!")
         alabel=Label(attention, text="Attention, vous n'avez pas entré uniquement des chiffre!", fg="black", font="Times 10 bold")
@@ -413,11 +409,7 @@ def tk_autremise_verif():
 
 def tk_main_window_verif():
     """Fonction vérifiant que les mises et prédictions entrées dans tk_main_window() soient valides et affichant un message d'avertissement avec tkinter au besoin"""
-    is_integer=True
-    for n in range(len(guess.get())):
-        if guess.get()[n] not in ("1","2","3","4", "5","6","7","8","9","0"):
-            is_integer=False
-    if is_integer==False:
+    if guess.get().isdigit()==False:
         attention=Tk()
         attention.title("Attention!")
         alabel=Label(attention, text="Attention, vous n'avez pas entré uniquement des chiffre!", fg="black", font="Times 10 bold")
