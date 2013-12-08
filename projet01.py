@@ -1,27 +1,27 @@
 # -*- coding: cp1252 -*-
 
 ## Importations
-from Tkinter import *
-import time
-import random
-import webbrowser
+from Tkinter import *#importer la bibliotheque python pour faire de l'interface graphique
+import time#importer la bibliotheque python time
+import random#importer la bibliotheque python random
+import webbrowser#importer la bibliotheque python webbroser
 
 
 ## Classes
-class joueur:
+class joueur: #création de la classe joueurs
     "Ensemble d'attributs que possede chaque joueur"
     ##Variables et dictionnaires de la classe
     compte=0
-    mise_totale=0
+    mise_totale=0#variable représentant la mise totale durant un tour de jeu
     dict_montants={}#dictionnaire des montants des joueurs
-    dict_guess={}
-    dict_bet={}
+    dict_guess={}#dictionnaire contenant les valeur sur le quel les joueurs misent
+    dict_bet={}#dictionnaire contenant les mises
     joueur_dict={}#dictionnaire des joueurs
-    noms=[]
-    dict_ecarts={}
+    noms=[]#liste contenant les noms des joueurs
+    dict_ecarts={}#liste contenant l'écart entre la mise de chaque joueur et le score que le programme a generer
 
     ##Méthodes d'instance
-    def __init__(self,nom="",montant_initial=0):
+    def __init__(self,nom="",montant_initial=0):#méthode qui s'enclenche avec l'appel de la classe
         "definition des attributs de depart du joueur"
         self.nom=nom#attribut "nom"
         self.montant_ini=self.montant=montant_initial#attributs "montant #initial" et #"montant actuel"
@@ -109,153 +109,153 @@ class joueur:
 dict_des={}
 
 ##Fonctions
-def main_programme():
+def main_programme():#definition du programme principal
     """Fonction-programme global du jeu. En lançant cette fonction le jeu débute (ou recommence) du tout début"""
-    global nbd, type_de
+    global nbd, type_de#mettre global nbd et type_de
     type_de=1 #Variable identifiant le type de dé. Soit 1 soit 2.
-    tk_nbjoueur()
-    for n in range(nbj):
-        joueur.generateur(tk_nomjoueurs(n))
-    nbd=tk_nbdes()
-    return tk_programme()
+    tk_nbjoueur()#appele cette fonction pour savoir le nombre de joueur
+    for n in range(nbj):# pour un nombre de joueur représenter par nbj
+        joueur.generateur(tk_nomjoueurs(n))#appele la methode joueur.générateur pour chaque nombre de joueur
+    nbd=tk_nbdes()#la variable nbd est égale à la valeur retourné par la fonction tk_nbdes
+    return tk_programme()#retouner tk_programme
 
-def tk_nbjoueur():
+def tk_nbjoueur():#définition d'une fonction qui determine le nombre de joueur
     """Fonction contenant un interface graphique tkinter pour demander le nombre de joueurs."""
-    global window1,nbj
-    window1=Tk()
-    window1.title("Combien de joueur?")
-    label1=Label(window1,text="Combien de joueurs vont jouer? Entre 2 et 4.", font="Time 10 bold", fg="black")
-    label1.pack()
-    nbj=StringVar()
-    nbj.set("2")
-    entry1=Entry(window1, textvariable=nbj, justify=CENTER, width=2)
-    entry1.pack()
-    button1=Button(window1, text="Okay", command=tk_nbjoueur_verif, cursor="dotbox")
-    button1.pack()
-    window1.mainloop()
-    nbj=int(nbj.get())
-    return 
+    global window1,nbj#mettre en valeur globale window1 et nbj
+    window1=Tk()#window1 est une fenetre dans tkinter
+    window1.title("Combien de joueur?")#le titre de la fenetre window1 est donné
+    label1=Label(window1,text="Combien de joueurs vont jouer? Entre 2 et 4.", font="Time 10 bold", fg="black")# un text gras, en noir time demande le nombre de joueur dans un label 
+    label1.pack()#chargement de ce qu'il faut pour pouvoir afficher label1
+    nbj=StringVar()#nbj est un variable de texte
+    nbj.set("2")# la valeur de nbj est donné
+    entry1=Entry(window1, textvariable=nbj, justify=CENTER, width=2)#une case ou l'utilisateur peur écrire quelque chose ou il y a deja nbj
+    entry1.pack()#chargement de ce qu'il faut pour pouvoir afficher entry1
+    button1=Button(window1, text="Okay", command=tk_nbjoueur_verif, cursor="dotbox")#création d'un bouton qui ferme la fenetre window
+    button1.pack()#chargement de ce qu'il faut pour pouvoir afficher Button
+    window1.mainloop()#cette fonction est appelé pour permettre a la fenetre de s'afficher
+    nbj=int(nbj.get())#la valeur de nbj devient la valeur de nbj, mais en chiffre
+    return #fermeture de la fontction
 
-def tk_nbjoueur_verif():
+def tk_nbjoueur_verif():#fonction qui verifie si le nombre de joueur est bon
     """Fonction vérifiant le nombre de joueur entré dans l'interface graphique de tk_nbjoueur() et créant un avertissement avec tkinter si nécessaire"""
-    global nbj
-    if nbj.get().isdigit()==False:
-        attention=Tk()
-        attention.title("Attention!")
-        alabel=Label(attention, text="Attention, vous n'avez pas entré uniquement des chiffre!", fg="black", font="Times 10 bold")
-        alabel.pack()
-        abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")
-        abouton.pack()
-        attention.mainloop()
-    elif int(nbj.get()) in (2,3,4):
-        window1.destroy()
-    else:
-        window2=Toplevel()
-        window2.title("Attention!")
-        label2=Label(window2, text="Attention, vous n'avez pas entrer un nombre de joueurs valide!", font="Times 10 bold", fg="black")
-        label2.pack()
-        button2=Button(window2, text="Okay", command=window2.destroy, cursor="dotbox")
-        button2.pack()
+    global nbj#mettre en valeur globale nbj
+    if nbj.get().isdigit()==False:#si nbj ne contient pas de chiffre
+        attention=Tk()#attention est une fenetre dans tkinter
+        attention.title("Attention!")#le titre de la fenetre ettention est donné
+        alabel=Label(attention, text="Attention, vous n'avez pas entré uniquement des chiffre!", fg="black", font="Times 10 bold")# un text gras, en noir time dis au joueur qu'il n'as pas rentrer que des chiffre pour le nombre de joueur
+        alabel.pack()#chargement de ce qu'il faut pour pouvoir afficher alabel
+        abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")#création d'un bouton qui ferme la fenetre attention
+        abouton.pack()#chargement de ce qu'il faut pour pouvoir afficher abutton
+        attention.mainloop()#cette fonction est appelé pour permettre a la fenetre de s'afficher
+    elif int(nbj.get()) in (2,3,4):#si nbj est soit 2, 3 ou 4
+        window1.destroy()#détruire la fenetre window1
+    else:#sinon
+        window2=Toplevel()#window2 est une fenetre dans tkinter
+        window2.title("Attention!")#le titre de la fenetre ettention est donné
+        label2=Label(window2, text="Attention, vous n'avez pas entrer un nombre de joueurs valide!", font="Times 10 bold", fg="black")# un text gras, en noir time dis au joueur qu'il n'as pas rentrer un chiffre valide pour le nombre de joueur
+        label2.pack()#chargement de ce qu'il faut pour pouvoir afficher label2
+        button2=Button(window2, text="Okay", command=window2.destroy, cursor="dotbox")#création d'un bouton qui ferme la fenetre attention
+        button2.pack()#chargement de ce qu'il faut pour pouvoir afficher abutton
         window2.grid()
-    return 
+    return #fermeture de la fontction
 
-def tk_nomjoueurs(num_joueur):
+def tk_nomjoueurs(num_joueur):#fonction qui definit les nombre de joueurs
     """Fonction avec interface tkinter demandant le nom d'un joueur"""
-    global windowNom, nomjoueur
-    windowNom=Tk()
-    windowNom.geometry("175x65")
-    windowNom.title("Joueur %d"%(num_joueur+1))
-    labelN=Label(windowNom, text="Quel est votre nom?", fg="black", font="Times 10 bold")
-    labelN.pack()
-    nomjoueur=StringVar()
-    entryN=Entry(windowNom, textvariable=nomjoueur, width=15)
-    entryN.pack()
-    boutonN=Button(windowNom, text="Continuer", command=tk_nomjoueurs_verif, cursor="dotbox")
-    boutonN.pack()
-    windowNom.mainloop()
-    return nomjoueur.get()
+    global windowNom, nomjoueur#mettre en valeur globale windowNom et nomjoueur
+    windowNom=Tk()#windowNom est une fenetre dans tkinter
+    windowNom.geometry("175x65")#la taille de windowNom est donné en pixel
+    windowNom.title("Joueur %d"%(num_joueur+1))#le titre de la fenetre est son numéro, soit num_joueur, qui est compté ailleurs, plus 1
+    labelN=Label(windowNom, text="Quel est votre nom?", fg="black", font="Times 10 bold")# un text gras, en noir time demande au joueur son nom
+    labelN.pack()#chargement de ce qu'il faut pour pouvoir afficher labelN
+    nomjoueur=StringVar()#nomjoueur est un variable de texte
+    entryN=Entry(windowNom, textvariable=nomjoueur, width=15)# la valeur de nomjoueur est donné dans une cette case
+    entryN.pack()#chargement de ce qu'il faut pour pouvoir afficher entryN
+    boutonN=Button(windowNom, text="Continuer", command=tk_nomjoueurs_verif, cursor="dotbox")#Bouton pour fermer la fenetre
+    boutonN.pack()#chargement de ce qu'il faut pour pouvoir afficher buttonN
+    windowNom.mainloop()#cette fonction est appelé pour permettre a la fenetre de s'afficher
+    return nomjoueur.get()#retourner la valeur de nom joueur
 
-def tk_nomjoueurs_verif():
+def tk_nomjoueurs_verif():#fonction qui verifie le si le nom des joueurs est valide
     """Fonction analysant le noms des joueurs entrés par la fonction tk_nbjoueurs() et créant un avertissement avec tkinter si nécessaire"""
-    inuse=False
-    for n in joueur.noms:
-        if nomjoueur.get()==n:
-            inuse=True
-    if len(nomjoueur.get())<2:
-        attention=Tk()
-        attention.title("Attention!")
-        alabel=Label(attention, text="Attention, un nom contient au minimum 2 caractères!", fg="black", font="Times 10 bold")
-        alabel.pack()
-        abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")
-        abouton.pack()
-        attention.mainloop()
-    elif inuse==True:
-        inuse=False
-        attention=Tk()
-        attention.title("Attention!")
-        alabel=Label(attention, text="Attention, ce nom est déjà utilisé par un autre joueur!", fg="black", font="Times 10 bold")
-        alabel.pack()
-        abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")
-        abouton.pack()
-        attention.mainloop()
+    inuse=False#pas utlisé
+    for n in joueur.noms:#pour tous les noms de joueurs faire ce qui suit
+        if nomjoueur.get()==n:#si un nom de joueur est utilisé
+            inuse=True#inuse devient vrai
+    if len(nomjoueur.get())<2:#si la longeur d'un nom est inférieur a 2
+        attention=Tk()#attention est une fenetre dans tkinter
+        attention.title("Attention!")#titre de la fenetre
+        alabel=Label(attention, text="Attention, un nom contient au minimum 2 caractères!", fg="black", font="Times 10 bold")#label qui dit qui faut min 2 caracteres a un nom
+        alabel.pack()#chargement de albal
+        abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")#bouton qui permet la detruction de la fenetre
+        abouton.pack()#chargement de abutton
+        attention.mainloop()#fonction   qui permet a a fenetre de rester ouverte
+    elif inuse==True:#si un nom est utilisé
+        inuse=False#inuse redevient faux, pour ne pas revenir ici indéféniment
+        attention=Tk()#ouverture d'une fenetre tkinter
+        attention.title("Attention!")#titre donné a la fenetre
+        alabel=Label(attention, text="Attention, ce nom est déjà utilisé par un autre joueur!", fg="black", font="Times 10 bold")#explication que le nom choisi est deja utilisé
+        alabel.pack()#chargement de alabel
+        abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")#bouton qui permet la detruction de la fenetre
+        abouton.pack()#chargement de abutton
+        attention.mainloop()#fonction   qui permet a a fenetre de rester ouverte
     else:
-        windowNom.destroy()
-    return 
+        windowNom.destroy()#
+    return #fermeture de la fonction
 
-def tk_nbdes():
+def tk_nbdes():#fonction qui demande le nombre de dé
     """Fonction avec interface tkinter qui demande le nombre de dé utilisé"""
-    global windowDes, nbdes
-    windowDes=Tk()
-    windowDes.title("Nombre de dés")
-    labelDes=Label(windowDes, text="Combien de dés à 6 faces voulez vous utiliser? Entre 1 et 4", fg="black", font="Times 10 bold")
-    labelDes.pack()
-    nbdes=StringVar()
-    nbdes.set("1")
-    entrydes=Entry(windowDes, textvariable=nbdes, width=3, justify=CENTER)
-    entrydes.pack()
-    boutonDes=Button(windowDes, text="Okay", command=tk_nbdes_verif, cursor="dotbox")
-    boutonDes.pack()
-    windowDes.mainloop()
-    return int(nbdes.get())
+    global windowDes, nbdes#mise en valeur globale
+    windowDes=Tk()#windowDes est une fenetre dans tkinter
+    windowDes.title("Nombre de dés")#le titre de la fenetre window1 est donné
+    labelDes=Label(windowDes, text="Combien de dés à 6 faces voulez vous utiliser? Entre 1 et 4", fg="black", font="Times 10 bold")#label qui demande le nombre de dé
+    labelDes.pack()#chargement de labelDes
+    nbdes=StringVar()#nbdes est un variable de texte
+    nbdes.set("1")# la valeur de nbdes est donné
+    entrydes=Entry(windowDes, textvariable=nbdes, width=3, justify=CENTER)#une case ou l'utilisateur peur écrire quelque chose pour defini nbdes
+    entrydes.pack()#chargement de entrydes
+    boutonDes=Button(windowDes, text="Okay", command=tk_nbdes_verif, cursor="dotbox")#bouton qui vérifie le nombe de dé
+    boutonDes.pack()#chargement de boutonDes
+    windowDes.mainloop()#fonction   qui permet a a fenetre de rester ouverte
+    return int(nbdes.get())#retourner nbdes en chiffre
 
-def tk_nbdes_verif():
+def tk_nbdes_verif():#fonction qui vérifie le nombre de dé
     """Fonction vérifiant le nombre de dé donné dans la fonction tk_nbdes() et affichant un avertissement avec tkinter au besoin."""
-    if nbdes.get().isdigit()==False:
-        attention=Tk()
-        attention.title("Attention!")
-        alabel=Label(attention, text="Attention, vous n'avez pas entré uniquement des chiffre!", fg="black", font="Times 10 bold")
-        alabel.pack()
-        abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")
-        abouton.pack()
-        attention.mainloop()
-    elif int(nbdes.get()) not in range(1,5):
-        attention=Tk()
-        attention.title("Attention!")
-        alabel=Label(attention, text="Attention, vous n'avez pas choisi entre 1 et 4 dé(s)!", fg="black", font="Times 10 bold")
-        alabel.pack()
-        abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")
-        abouton.pack()
-        attention.mainloop()
+    if nbdes.get().isdigit()==False:#si le nombre de dé n'est pas que des chiffre
+        attention=Tk()#ouverture fenetre en tkinter
+        attention.title("Attention!")#titre de la fenetre
+        alabel=Label(attention, text="Attention, vous n'avez pas entré uniquement des chiffre!", fg="black", font="Times 10 bold")#label qui explique que l'utilisateur n'a pas rentré que des chiffre
+        alabel.pack()#charment de alabel
+        abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")#bouton qui detruit la fenetre
+        abouton.pack()#chargement de a bouton 
+        attention.mainloop()#cette fonction est appelé pour permettre a la fenetre de s'afficher
+    elif int(nbdes.get()) not in range(1,5):#si nbdes nest pas 1,2,3 ou 4
+        attention=Tk()#attention est une fenetre dans tkinter
+        attention.title("Attention!")#titre de la fenetre
+        alabel=Label(attention, text="Attention, vous n'avez pas choisi entre 1 et 4 dé(s)!", fg="black", font="Times 10 bold")#label qui explique que le nombre de dé est mauvais
+        alabel.pack()#chargement de alabel
+        abouton=Button(attention, text="Okay", command=attention.destroy, cursor="dotbox")#bouton qui détruit la fenetre
+        abouton.pack()#chargement de a bouton 
+        attention.mainloop()#cette fonction est appelé pour permettre a la fenetre de s'afficher
     else:
-        windowDes.destroy()
-    return 
+        windowDes.destroy()#détruire la fenetre 
+    return #fermeture de la fonction
 
 def tk_programme():
     """Fonction-programme pour un tour de jeu. En lançant cette fonction, on part un nouveau tour de jeu. Elle utilise d'ailleurs tkinter pour afficher des félicitations au(x) vainqueur(s)"""
-    for n in joueur.noms:
-            tk_main_window(n)
+    for n in joueur.noms:#pour des nombre allan jusqua joueur.noms
+            tk_main_window(n)#ouverture d'une fenetre
             joueur.joueur_dict[n].guessing(guess,bet)
     valeur_des(nbd)
-    for n in range(nbd):
-        tk_brassage(dict_des["dé%d"%n],n)
-    for n in joueur.gagnant():
-        vainqueur=u"Félicitation "+n+u"! Vous avez gagné la ronde en prédisant le plus près de "+str(valeur_totale)+"."
-        victory=Tk()
-        victory.title("Bravo!")
-        MessageV=Label(victory, text=vainqueur, fg="black", font="Times 10 bold")
-        MessageV.pack()
-        portion=Frame(victory)
-        portion.pack()        
+    for n in range(nbd):#pour n jusqua le nombre de dé
+        tk_brassage(dict_des["dé%d"%n],n)#il faut un nombre de brassage équivalent au nombre de dé
+    for n in joueur.gagnant():#pour n qui est le 
+        vainqueur=u"Félicitation "+n+u"! Vous avez gagné la ronde en prédisant le plus près de "+str(valeur_totale)+"."#remerciments au vainceur
+        victory=Tk()#ouverture fenetre 
+        victory.title("Bravo!")#titre de la fenetre
+        MessageV=Label(victory, text=vainqueur, fg="black", font="Times 10 bold")#écrire dans un label vainceur
+        MessageV.pack()#charmegemt du label
+        portion=Frame(victory)#dans un frame
+        portion.pack()#charmement de portion
         for n in range(nbd):
             if n==0:
                  fichier_face1="d6-singleface-%d.gif"%dict_des["dé%d"%n]
@@ -289,56 +289,56 @@ def tk_programme():
     else:
         return tk_programme()
 
-def tk_main_window(nom):
+def tk_main_window(nom):#fenetre principale
     """Fonction qui fait apparaitre avec tkinter une fenêtre de jeu où l'on peu miser et prédire, ainsi que voir l'argent de chaque joueur."""
     ##Variables et dictionnaires de la fonction
-    global bet,guess,fenetre1,name
-    name=nom
-    bet=None
-    dict_label_montant={}
-    dict_label_nom={}
+    global bet,guess,fenetre1,name# mettre globale plusieurs valeur
+    name=nom#atribution de valeur
+    bet=None#la mise est nul
+    dict_label_montant={}#le dictionnaire des montants est vide
+    dict_label_nom={}#le dictionnaire des noms est vide
 
     ##Commandes tkinter
-    fenetre1=Tk()
-    fenetre1.title(nom)
-    fenetre1.geometry("500x500")
+    fenetre1=Tk()#ouverture fenete1
+    fenetre1.title(nom)#titre de la fenetre qui est le nom du joueur
+    fenetre1.geometry("500x500")#grosseur de la fenetre en pixel
     
-    division=Frame(fenetre1)
-    division.pack(side=LEFT, fill=BOTH, expand=1)
+    division=Frame(fenetre1)#nom de la premiere partie
+    division.pack(side=LEFT, fill=BOTH, expand=1)#chargement de division
     
-    section2=Frame(division)
-    section2.pack(fill=X)
-    libele1=Label(section2, text="Choisissez une mise", fg="black", font="Times 10 bold")
-    libele1.pack()
+    section2=Frame(division)#faire un morceau dans division
+    section2.pack(fill=X)#chargement de setion2
+    libele1=Label(section2, text="Choisissez une mise", fg="black", font="Times 10 bold")#label pour une mise
+    libele1.pack()#chargemetn du label
     bet=StringVar()#variable contenant le bet
-    bet.set("1")
-    bouton1=Button(section2, text="1", width=9, command=lambda:bet.set("1"), cursor="dotbox")
-    bouton1.pack(pady=1)
-    bouton2=Button(section2, text="5", width=9, command=lambda:bet.set("5"), cursor="dotbox")
+    bet.set("1")#donner la valeur textuelle de 1 a bet
+    bouton1=Button(section2, text="1", width=9, command=lambda:bet.set("1"), cursor="dotbox")#bouton pour une mise prédeterminé de 1
+    bouton1.pack(pady=1)#chargement du bouton
+    bouton2=Button(section2, text="5", width=9, command=lambda:bet.set("5"), cursor="dotbox")#bouton pour une mise prédeterminé de 5
     bouton2.pack(pady=1)
-    bouton3=Button(section2, text="10", width=9, command=lambda:bet.set("10"), cursor="dotbox")
-    bouton3.pack(pady=1)
-    bouton4=Button(section2, text="20", width=9, command=lambda:bet.set("20"), cursor="dotbox")
-    bouton4.pack(pady=1)
-    bouton5=Button(section2, text="50", width=9, command=lambda:bet.set("50"), cursor="dotbox")
-    bouton5.pack(pady=1)
-    bouton6=Button(section2, text="Autre mise", width=9, command=tk_autremise, cursor="dotbox")
-    bouton6.pack(pady=1)
-    libele3=Label(section2, textvariable=bet, bg="black", fg="white")
-    libele3.pack(fill=X)
+    bouton3=Button(section2, text="10", width=9, command=lambda:bet.set("10"), cursor="dotbox")#bouton pour une mise prédeterminé de 10
+    bouton3.pack(pady=1)#chargement du bouton
+    bouton4=Button(section2, text="20", width=9, command=lambda:bet.set("20"), cursor="dotbox")#bouton pour une mise prédeterminé de 20
+    bouton4.pack(pady=1)#chargement du bouton
+    bouton5=Button(section2, text="50", width=9, command=lambda:bet.set("50"), cursor="dotbox")#bouton pour une mise prédeterminé de 50
+    bouton5.pack(pady=1)#chargement du bouton
+    bouton6=Button(section2, text="Autre mise", width=9, command=tk_autremise, cursor="dotbox")#bouton pour une mise a déterminé
+    bouton6.pack(pady=1)#chargement du bouton
+    libele3=Label(section2, textvariable=bet, bg="black", fg="white")#label qui montre la mise finale
+    libele3.pack(fill=X)#chargement du bouton
     
-    section3=Frame(division)
-    section3.pack(side=BOTTOM, pady=1, fill=X)
-    libele2=Label(section3, text="Quel nombre prédisez-vous?", fg="black", font="Times 10 bold")
-    libele2.pack()
+    section3=Frame(division)#autre morceau dans division
+    section3.pack(side=BOTTOM, pady=1, fill=X)#chargement de section 3
+    libele2=Label(section3, text="Quel nombre prédisez-vous?", fg="black", font="Times 10 bold")#label qui demande la nombre prédit
+    libele2.pack()#chargement de libele2
     guess=StringVar()#variable contenant le guess
-    guess.set(str(nbd))
-    saisie1=Entry(section3, textvariable=guess, justify=CENTER, width=3)
-    saisie1.pack()
+    guess.set(str(nbd))# le nombre estimé est donné comme valeur a guess
+    saisie1=Entry(section3, textvariable=guess, justify=CENTER, width=3)#l'utilisateur peut rentré le nombre qu'il veut
+    saisie1.pack()#chargement de saisie1
     libele4=Label(section3, textvariable=guess, bg="black", fg="white")
-    libele4.pack(fill=X)
-    bouton7=Button(section3, text="Continuer", width=9, command=tk_main_window_verif, cursor="dotbox")
-    bouton7.pack(pady=1)
+    libele4.pack(fill=X)#chargement de libele4
+    bouton7=Button(section3, text="Continuer", width=9, command=tk_main_window_verif, cursor="dotbox")#bouton qui détruit la fenetre
+    bouton7.pack(pady=1)#chargement du bouton 7
     
     section4=Frame(fenetre1, width=200, height=500, background="white", cursor="pirate")
     section4.pack(side=RIGHT)
@@ -463,10 +463,10 @@ def tk_quitter():
     return 
 
 def type(n):
-    """Fonction qui indique d'utiliser les images de dés simplifiées, soit toutes avec le même chiffre sur toutes ses faces"""
+    """Fonction qui indique d'utiliser les images de dés simplifiées(n=1), soit toutes avec le même chiffre sur toutes ses faces ou les images de dés réalistes(n=2), soit avec des chiffres différent sur les faces voisines"""
     global type_de
     type_de=n
-
+    return 
 
 def tk_aide():
     """Fonction créant avec tkinter une fenêtre contenant les règles et les instructions du jeu"""
@@ -534,7 +534,7 @@ def tk_succession_image():
         image_de_final="d6-face%d-%d.gif"%(definal,type_de)
         imgdefinal=PhotoImage(file=image_de_final)#ref
         imgfinale=section1.create_image(65,56,image=imgdefinal)
-        windowDice.after(3000, windowDice.destroy)
+        windowDice.after(1000, windowDice.destroy)
     return
 
 def tk_rejouer():
@@ -581,5 +581,5 @@ Votre objectif est donc de produire les meilleures prédictions pour remporter l
 
 N. B. : En aucun vous ne pourrez parier plus que le montant possédé au moment de la mise. Les emprunts sont donc interdits.
 
-Sur ce, sans plus tarder, bon jeu à tous!"""
-main_programme()
+Sur ce, sans plus tarder, bon jeu à tous!"""# écrire ce texte
+main_programme()# appeler le programme
